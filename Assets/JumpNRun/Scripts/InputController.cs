@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputController : MonoBehaviour {
 
@@ -8,8 +6,9 @@ public class InputController : MonoBehaviour {
     public float WalkSpeed = 6f;
     public float RunSpeed = 12f;
     public float JumpForce = 5f;
+    public GameManager gameManager;
 
-    private Vector3 move = Vector3.zero;
+    private float move;
     
     // Use this for initialization
     void Start () {
@@ -23,7 +22,22 @@ public class InputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        move.x = Input.GetAxis("Horizontal");
+        if(gameManager.View == View.ThirdPerson)
+        {
+            move = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+            move = Input.GetAxis("Vertical");
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                movable.Rotate(-1);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                movable.Rotate(1);
+            }
+        }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -38,6 +52,6 @@ public class InputController : MonoBehaviour {
         {
             movable.Jump(JumpForce);
         }
-        movable.Move(move.x);
+        movable.Move(move);
     }
 }

@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Death
+  - Slot4
+  - Slot3
+  - Right
+  - Left
+  - Slot2
+  - Slot1
+  - Item
   layers:
   - Default
   - TransparentFX

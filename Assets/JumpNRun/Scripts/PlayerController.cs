@@ -8,15 +8,16 @@ public class PlayerController : MonoBehaviour, Movable
 {
 
     public Animator anim;
-    public Physic physic;
     public float Gravity = 1.41f;
     public float JumpForce = 0.5f;
+    public GameManager gameManager;
 
     private CharacterController controller = null;
     private bool jump;
     private float walkDirection;
     private Vector3 moveDirection;
     private Vector3 gravity = Vector3.zero;
+    private float rotation = 90f;
 
     private enum AnimState
     {
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour, Movable
         Jumping,
     };
 
-    // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -34,21 +34,17 @@ public class PlayerController : MonoBehaviour, Movable
             Debug.LogError("Missing Character Controller");
         }
         controller.detectCollisions = true;
-        physic = GetComponent<Physic>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        moveDirection = Math.Abs(walkDirection) * this.transform.forward * Time.deltaTime;
-
-        if (walkDirection > 0f)
+        if(gameManager.View == View.ThirdPerson)
         {
-            this.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            moveDirection = HandleThirdPersonInput();
         }
-        else if (walkDirection < 0f)
+        else
         {
-            this.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            moveDirection = HandleFirstPersonInput();
         }
 
         if (!controller.isGrounded)
@@ -67,6 +63,26 @@ public class PlayerController : MonoBehaviour, Movable
         moveDirection += gravity;
         controller.Move(moveDirection);
         UpdateAnimation();
+    }
+
+    private Vector3 HandleFirstPersonInput()
+    {
+        Vector3 direction = walkDirection * this.transform.forward * Time.deltaTime;
+        return direction;
+    }
+
+    private Vector3 HandleThirdPersonInput()
+    {
+        Vector3 direction = Math.Abs(walkDirection) * this.transform.forward * Time.deltaTime;
+        if (walkDirection > 0f)
+        {
+            this.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        }
+        else if (walkDirection < 0f)
+        {
+            this.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        }
+        return direction;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -111,6 +127,19 @@ public class PlayerController : MonoBehaviour, Movable
         }
     }
 
+    public void Rotate(float value)
+    {
+        if(value == 1)
+        {
+            rotation += 90;
+            this.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+        }
+        else
+        {
+            rotation -= 90;
+            this.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+        }
+    }
 
     public void Move(float value)
     {
