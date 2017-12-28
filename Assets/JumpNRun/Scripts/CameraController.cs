@@ -11,16 +11,11 @@ public class CameraController : MonoBehaviour {
     public GameManager gameManager;
 
     private bool isFirstPerson = false;
-    private Button[] buttons;
+
 
     void Start()
     {
         gameManager = GetComponent<GameManager>();
-        buttons = GetComponentsInChildren<Button>();
-        foreach (Button button in buttons)
-        {
-            button.onClick.AddListener(() => onButtonClick(button));
-        }
     }
 
     // Update is called once per frame
@@ -30,16 +25,7 @@ public class CameraController : MonoBehaviour {
         FirstPersonCamera.enabled = isFirstPerson;
     }
 
-    public void onButtonClick(Button button)
-    {
-        Debug.Log("Button has been triggered: " + button.name);
-        if(button.name == "ToggleView")
-        {
-            TogglePersonView();
-        }
-    }
-
-    private void TogglePersonView()
+    public void TogglePersonView()
     {
         isFirstPerson = !isFirstPerson;
         gameManager.View = isFirstPerson == true ? View.FirstPerson : View.ThirdPerson;

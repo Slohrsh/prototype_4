@@ -7,10 +7,7 @@ public class Inventory : MonoBehaviour {
 
     public List<Item> Items { get; private set; }
 
-    public const String LIFEPOT = "LifePot";
-    public const String KEY = "Key";
-    public const String ICE_AXE = "IceAxe";
-    public const String BARREL = "Barrel";
+    public const String Item = "Item";
 
 
     public void Start()
@@ -20,12 +17,23 @@ public class Inventory : MonoBehaviour {
 
     public void Add(GameObject gameObject)
     {
-        Item item = gameObject.GetComponent<Item>();
-        if (item != null)
+        Item itemToAdd = gameObject.GetComponent<Item>();
+        if (itemToAdd != null)
         {
-            Items.Add(item);
+            bool doesExist = false;
+            foreach(Item item in Items)
+            {
+                if(item.CompareTag(itemToAdd.tag))
+                {
+                    item.Amount++;
+                    doesExist = true;
+                }
+            }
+            if(!doesExist)
+            {
+                Items.Add(itemToAdd);
+            }
         }
-        Debug.Log(Items);
     }
 
     public void DecreaseItem(String tag)
@@ -33,18 +41,25 @@ public class Inventory : MonoBehaviour {
         manipulateItem(tag, -1);
     }
 
-    private bool manipulateItem(String tag, int value)
+    private void manipulateItem(String tag, int value)
     {
-        bool isItem = false;
         foreach (Item item in Items)
         {
-            if (item.name.Equals(tag))
+            if (item.CompareTag(tag))
             {
                 item.Amount += value;
-                isItem = true;
+                if(item.Amount <= 0)
+                {
+                    DropItem(item);
+                }
             }
+
         }
-        return isItem;
+    }
+
+    private void DropItem(Item item)
+    {
+        Items.Remove(item);
     }
 
     public bool HasItem(string tag)

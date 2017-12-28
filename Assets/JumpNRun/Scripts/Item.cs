@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour {
 
-    public int Amount;
-    public Image Texture;
+    public int Amount = 1;
+    public Sprite sprite;
     public string Name { get { return GetComponent<GameObject>().tag; } }
 
     public bool HasItem()
@@ -28,7 +28,7 @@ public class Item : MonoBehaviour {
         {
             Inventory inventory = other.GetComponent<Inventory>();
             inventory.Add(this.gameObject);
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
