@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, Movable
 {
@@ -19,6 +18,10 @@ public class PlayerController : MonoBehaviour, Movable
     private Vector3 gravity = Vector3.zero;
     private float rotation = 90f;
 
+    private int life = 3;
+
+    private LifeIndicator lifeIndicator;
+
     private enum AnimState
     {
         Idle,
@@ -28,16 +31,15 @@ public class PlayerController : MonoBehaviour, Movable
 
     void Start()
     {
+        lifeIndicator = GetComponent<LifeIndicator>();
         controller = GetComponent<CharacterController>();
-        if (controller == null)
-        {
-            Debug.LogError("Missing Character Controller");
-        }
         controller.detectCollisions = true;
     }
 
     void Update()
     {
+        CheckIfDead();
+
         if(gameManager.View == View.ThirdPerson)
         {
             moveDirection = HandleThirdPersonInput();
@@ -65,6 +67,14 @@ public class PlayerController : MonoBehaviour, Movable
         UpdateAnimation();
     }
 
+    private void CheckIfDead()
+    {
+        if(life <= 0)
+        {
+            gameManager.GameOver();
+        }
+    }
+
     private Vector3 HandleFirstPersonInput()
     {
         Vector3 direction = walkDirection * this.transform.forward * Time.deltaTime;
@@ -89,7 +99,7 @@ public class PlayerController : MonoBehaviour, Movable
     {
         if (hit.gameObject.tag == "Death")
         {
-            SceneManager.LoadScene(0);
+            gameManager.GameOver();
         }
     }
 
@@ -126,6 +136,24 @@ public class PlayerController : MonoBehaviour, Movable
                 break;
         }
     }
+
+    public void Damage()
+    {
+        life--;
+        switch(life)
+        {
+            case 3:
+                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Green);
+                break;
+            case 2:
+                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Yellow);
+                break;
+            case 1:
+                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Red);
+                break;
+        }
+    }
+
 
     public void Rotate(float value)
     {

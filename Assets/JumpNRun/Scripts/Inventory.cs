@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour {
     public const String Item = "Item";
 
 
+
     public void Start()
     {
         Items = new List<Item>();
@@ -43,7 +44,7 @@ public class Inventory : MonoBehaviour {
 
     private void manipulateItem(String tag, int value)
     {
-        foreach (Item item in Items)
+        foreach (Item item in Items.ToArray())
         {
             if (item.CompareTag(tag))
             {

@@ -393,6 +393,10 @@ MonoBehaviour:
   Reference: {fileID: 71364233}
   LifeIndicatorPrefab: {fileID: 1963679424682750, guid: 5e3f697d50718d84d90194d297813aa5,
     type: 2}
+  lifeIndicatorGreen: {fileID: 21300000, guid: 6b5f4f9fa14ede145a6e430555832e1b, type: 3}
+  lifeIndicatorYellow: {fileID: 21300000, guid: 34eba64dc78c7234db112b24cdb51cf4,
+    type: 3}
+  lifeIndicatorRed: {fileID: 21300000, guid: 07f8cc0ed5f3add48865a0881058882a, type: 3}
 --- !u!114 &13262268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4198,12 +4202,12 @@ Prefab:
     - target: {fileID: 224281782191857874, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 501.5
+      value: 416
       objectReference: {fileID: 0}
     - target: {fileID: 224281782191857874, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 304
+      value: 243.5
       objectReference: {fileID: 0}
     - target: {fileID: 224281782191857874, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
@@ -4343,7 +4347,7 @@ Prefab:
     - target: {fileID: 224909397216437192, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: 224
       objectReference: {fileID: 0}
     - target: {fileID: 114960680100055822, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
@@ -4373,12 +4377,12 @@ Prefab:
     - target: {fileID: 224919427062774358, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -18.199997
+      value: 433.3
       objectReference: {fileID: 0}
     - target: {fileID: 224919427062774358, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 14.700001
+      value: 268.7
       objectReference: {fileID: 0}
     - target: {fileID: 224565937962223386, guid: 4f1ca1875db77874aa4680b2138f6c4d,
         type: 2}

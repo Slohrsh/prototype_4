@@ -24,24 +24,27 @@ public class ButtonController : MonoBehaviour {
 
     private void UpdateButtonSprite(Button button)
     {
-        switch (button.name)
+        if(inventoryManager.Slots != null)
         {
-            case Buttons.SLOT_1:
-                button.image.sprite = inventoryManager.Slots[0] != null ? inventoryManager.Slots[0].sprite : defaultSprite;
-                button.GetComponentInChildren<Text>().text = inventoryManager.Slots[0] != null ? inventoryManager.Slots[0].Amount.ToString() : "";
-                break;
-            case Buttons.SLOT_2:
-                    button.image.sprite = inventoryManager.Slots[1] != null ? inventoryManager.Slots[1].sprite : defaultSprite;
-                button.GetComponentInChildren<Text>().text = inventoryManager.Slots[1] != null ? inventoryManager.Slots[1].Amount.ToString() : "";
-                break;
-            case Buttons.SLOT_3:
-                    button.image.sprite = inventoryManager.Slots[2] != null ? inventoryManager.Slots[2].sprite : defaultSprite;
-                button.GetComponentInChildren<Text>().text = inventoryManager.Slots[2] != null ? inventoryManager.Slots[2].Amount.ToString() : "";
-                break;
-            case Buttons.SLOT_4:
-                    button.image.sprite = inventoryManager.Slots[3] != null ? inventoryManager.Slots[3].sprite : defaultSprite;
-                button.GetComponentInChildren<Text>().text = inventoryManager.Slots[3] != null ? inventoryManager.Slots[3].Amount.ToString() : "";
-                break;
+            switch (button.name)
+            {
+                case Buttons.SLOT_1:
+                    button.image.sprite = inventoryManager.Slots[0] != null ? inventoryManager.Slots[0].sprite : defaultSprite;
+                    button.GetComponentInChildren<Text>().text = inventoryManager.Slots[0] != null ? inventoryManager.Slots[0].Amount.ToString() : "";
+                    break;
+                case Buttons.SLOT_2:
+                        button.image.sprite = inventoryManager.Slots[1] != null ? inventoryManager.Slots[1].sprite : defaultSprite;
+                    button.GetComponentInChildren<Text>().text = inventoryManager.Slots[1] != null ? inventoryManager.Slots[1].Amount.ToString() : "";
+                    break;
+                case Buttons.SLOT_3:
+                        button.image.sprite = inventoryManager.Slots[2] != null ? inventoryManager.Slots[2].sprite : defaultSprite;
+                    button.GetComponentInChildren<Text>().text = inventoryManager.Slots[2] != null ? inventoryManager.Slots[2].Amount.ToString() : "";
+                    break;
+                case Buttons.SLOT_4:
+                        button.image.sprite = inventoryManager.Slots[3] != null ? inventoryManager.Slots[3].sprite : defaultSprite;
+                    button.GetComponentInChildren<Text>().text = inventoryManager.Slots[3] != null ? inventoryManager.Slots[3].Amount.ToString() : "";
+                    break;
+            }
         }
     }
 
