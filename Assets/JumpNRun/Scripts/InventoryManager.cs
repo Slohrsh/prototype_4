@@ -25,7 +25,7 @@ public class InventoryManager : MonoBehaviour {
     {
         Item item = GetItemOfSlot(slot);
         if(item != null)
-            inventory.UseItem(item.tag);
+            inventory.UseItem(item.Name);
     }
 
     public void ShiftRight()

@@ -78,6 +78,12 @@ public class PlayerController : MonoBehaviour, Movable
         }
     }
 
+    internal void CreateObstacle(GameObject obstacle)
+    {
+        GameObject newObstacle = Instantiate(obstacle, transform.position, transform.rotation);
+        newObstacle.SetActive(true);
+    }
+
     private Vector3 HandleFirstPersonInput()
     {
         Vector3 direction = walkDirection * this.transform.forward * Time.deltaTime;
@@ -102,6 +108,7 @@ public class PlayerController : MonoBehaviour, Movable
     {
         if (hit.gameObject.tag == "Death")
         {
+            anim.SetTrigger("isDead");
             gameManager.GameOver();
         }
     }

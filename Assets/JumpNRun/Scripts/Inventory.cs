@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour {
 
     public List<Item> Items { get; private set; }
 
-    public enum BenefitOfItem { Health, Mana, Jump }
+    public enum BenefitOfItem { Health, Mana, Jump, Obstacle }
 
     private PlayerController player;
 
@@ -38,12 +38,12 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void UseItem(String tag)
+    public void UseItem(String name)
     {
-        Item item = GetItem(tag);
+        Item item = GetItem(name);
         if(item != null)
         {
-            UseBenefit(item.Benefit);
+            UseBenefit(item);
             item.Amount--;
             if (item.Amount <= 0)
             {
@@ -52,9 +52,10 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    private void UseBenefit(BenefitOfItem benefit)
+    private void UseBenefit(Item item)
     {
-        switch(benefit)
+        BenefitOfItem benefit = item.Benefit;
+        switch (benefit)
         {
             case BenefitOfItem.Health:
                 player.IncreaseLife();
@@ -63,14 +64,17 @@ public class Inventory : MonoBehaviour {
                 break;
             case BenefitOfItem.Mana:
                 break;
+            case BenefitOfItem.Obstacle:
+                player.CreateObstacle(item.droppableObject);
+                break;
         }
     }
 
-    private Item GetItem(String tag)
+    private Item GetItem(String name)
     {
         foreach (Item item in Items.ToArray())
         {
-            if (item.CompareTag(tag))
+            if (item.Name == name)
             {
                 return item;
             }

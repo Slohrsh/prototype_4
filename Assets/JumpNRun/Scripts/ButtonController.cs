@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ButtonController : MonoBehaviour {
 
@@ -69,6 +70,7 @@ public class ButtonController : MonoBehaviour {
                 inventoryManager.ShiftRight();
                 break;
         }
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     // Update is called once per frame

@@ -22,35 +22,39 @@ public class InputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(gameManager.view == View.ThirdPerson)
+        move = 0;
+        if(!gameManager.isGameOver)
         {
-            move = Input.GetAxis("Horizontal");
-        }
-        else
-        {
-            move = Input.GetAxis("Vertical");
-            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            if (gameManager.view == View.ThirdPerson)
             {
-                movable.Rotate(-1);
+                move = Input.GetAxis("Horizontal");
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else
             {
-                movable.Rotate(1);
+                move = Input.GetAxis("Vertical");
+                if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+                {
+                    movable.Rotate(-1);
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+                {
+                    movable.Rotate(1);
+                }
             }
-        }
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            move *= RunSpeed;
-        }
-        else
-        {
-            move *= WalkSpeed;
-        }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                move *= RunSpeed;
+            }
+            else
+            {
+                move *= WalkSpeed;
+            }
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            movable.Jump(JumpForce);
+            if (Input.GetButtonDown("Jump"))
+            {
+                movable.Jump(JumpForce);
+            }
         }
         movable.Move(move);
     }

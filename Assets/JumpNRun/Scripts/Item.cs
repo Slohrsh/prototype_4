@@ -6,6 +6,7 @@ public class Item : MonoBehaviour {
     public string Name;
     public int Amount = 1;
     public Sprite sprite;
+    public GameObject droppableObject;
 
     public Inventory.BenefitOfItem Benefit;
 
@@ -15,8 +16,12 @@ public class Item : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
+    void Start ()
+    {
+		if(droppableObject == null)
+        {
+            droppableObject = GetComponent<GameObject>();
+        }
 	}
 	
 	// Update is called once per frame
