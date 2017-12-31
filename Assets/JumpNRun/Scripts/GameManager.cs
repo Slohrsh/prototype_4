@@ -7,22 +7,29 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    public View View { get; set; }
+    public View view { get; set; }
+    public bool isGameOver;
+    private float deltaTime = 0;
 
-	// Use this for initialization
 	void Start ()
     {
 		
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
-
+        if(isGameOver)
+        {
+            deltaTime += Time.deltaTime;
+            if(deltaTime > 2)
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
 	}
-
     internal void GameOver()
     {
-        SceneManager.LoadScene(0);
+        view = View.ThirdPerson;
+        isGameOver = true;
     }
 }

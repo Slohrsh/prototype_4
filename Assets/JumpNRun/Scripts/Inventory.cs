@@ -7,13 +7,14 @@ public class Inventory : MonoBehaviour {
 
     public List<Item> Items { get; private set; }
 
-    public const String Item = "Item";
+    public enum BenefitOfItem { Health, Mana, Jump }
 
-
+    private PlayerController player;
 
     public void Start()
     {
         Items = new List<Item>();
+        player = GetComponent<PlayerController>();
     }
 
     public void Add(GameObject gameObject)
@@ -24,7 +25,7 @@ public class Inventory : MonoBehaviour {
             bool doesExist = false;
             foreach(Item item in Items)
             {
-                if(item.CompareTag(itemToAdd.tag))
+                if(item.Name == itemToAdd.Name)
                 {
                     item.Amount++;
                     doesExist = true;
@@ -37,25 +38,44 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void DecreaseItem(String tag)
+    public void UseItem(String tag)
     {
-        manipulateItem(tag, -1);
+        Item item = GetItem(tag);
+        if(item != null)
+        {
+            UseBenefit(item.Benefit);
+            item.Amount--;
+            if (item.Amount <= 0)
+            {
+                DropItem(item);
+            }
+        }
     }
 
-    private void manipulateItem(String tag, int value)
+    private void UseBenefit(BenefitOfItem benefit)
+    {
+        switch(benefit)
+        {
+            case BenefitOfItem.Health:
+                player.IncreaseLife();
+                break;
+            case BenefitOfItem.Jump:
+                break;
+            case BenefitOfItem.Mana:
+                break;
+        }
+    }
+
+    private Item GetItem(String tag)
     {
         foreach (Item item in Items.ToArray())
         {
             if (item.CompareTag(tag))
             {
-                item.Amount += value;
-                if(item.Amount <= 0)
-                {
-                    DropItem(item);
-                }
+                return item;
             }
-
         }
+        return null;
     }
 
     private void DropItem(Item item)

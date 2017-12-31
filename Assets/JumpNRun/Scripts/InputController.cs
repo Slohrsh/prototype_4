@@ -22,7 +22,7 @@ public class InputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(gameManager.View == View.ThirdPerson)
+        if(gameManager.view == View.ThirdPerson)
         {
             move = Input.GetAxis("Horizontal");
         }

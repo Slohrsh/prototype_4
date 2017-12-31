@@ -21,14 +21,22 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        ThirdPersonCamera.enabled = !isFirstPerson;
-        FirstPersonCamera.enabled = isFirstPerson;
+        if(gameManager.isGameOver)
+        {
+            ThirdPersonCamera.enabled = true;
+            FirstPersonCamera.enabled = false;
+        }
+        else
+        {
+            ThirdPersonCamera.enabled = !isFirstPerson;
+            FirstPersonCamera.enabled = isFirstPerson;
+        }
     }
 
     public void TogglePersonView()
     {
         isFirstPerson = !isFirstPerson;
-        gameManager.View = isFirstPerson == true ? View.FirstPerson : View.ThirdPerson;
+        gameManager.view = isFirstPerson == true ? View.FirstPerson : View.ThirdPerson;
         ThirdPersonCamera.enabled = !isFirstPerson;
         FirstPersonCamera.enabled = isFirstPerson;
     }

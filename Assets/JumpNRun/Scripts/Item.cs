@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour {
 
+    public string Name;
     public int Amount = 1;
     public Sprite sprite;
-    public string Name { get { return GetComponent<GameObject>().tag; } }
+
+    public Inventory.BenefitOfItem Benefit;
 
     public bool HasItem()
     {

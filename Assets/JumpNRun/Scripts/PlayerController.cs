@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, Movable
     public float Gravity = 1.41f;
     public float JumpForce = 0.5f;
     public GameManager gameManager;
+    public float life = 100;
+    public float DecreaseLifeSpeed;
 
     private CharacterController controller = null;
     private bool jump;
@@ -18,7 +20,6 @@ public class PlayerController : MonoBehaviour, Movable
     private Vector3 gravity = Vector3.zero;
     private float rotation = 90f;
 
-    private int life = 3;
 
     private LifeIndicator lifeIndicator;
 
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour, Movable
     {
         CheckIfDead();
 
-        if(gameManager.View == View.ThirdPerson)
+        if(gameManager.view == View.ThirdPerson)
         {
             moveDirection = HandleThirdPersonInput();
         }
@@ -65,12 +66,14 @@ public class PlayerController : MonoBehaviour, Movable
         moveDirection += gravity;
         controller.Move(moveDirection);
         UpdateAnimation();
+        UpdateLife();
     }
 
     private void CheckIfDead()
     {
         if(life <= 0)
         {
+            anim.SetTrigger("isDead");
             gameManager.GameOver();
         }
     }
@@ -139,21 +142,32 @@ public class PlayerController : MonoBehaviour, Movable
 
     public void Damage()
     {
-        life--;
-        switch(life)
-        {
-            case 3:
-                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Green);
-                break;
-            case 2:
-                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Yellow);
-                break;
-            case 1:
-                lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Red);
-                break;
-        }
+        life -= 20;
     }
 
+    public void IncreaseLife()
+    {
+        anim.SetTrigger("isEating");
+        life += 20;
+    }
+
+    private void UpdateLife()
+    {
+        life -= Time.deltaTime * DecreaseLifeSpeed;
+
+        if(life > 70)
+        {
+            lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Green);
+        }
+        else if(life > 30)
+        {
+            lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Yellow);
+        }
+        else
+        {
+            lifeIndicator.SetLifeIndicatorTexture(LifeIndicator.Life.Red);
+        }
+    }
 
     public void Rotate(float value)
     {
