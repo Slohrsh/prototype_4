@@ -199,6 +199,7 @@ public class PlayerController : MonoBehaviour, Movable
     {
         if(controller.isGrounded)
         {
+            life -= 5;
             jump = true;
         }
     }
