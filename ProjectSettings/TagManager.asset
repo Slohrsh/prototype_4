@@ -12,6 +12,7 @@ TagManager:
   - Slot2
   - Slot1
   - Item
+  - Lift
   layers:
   - Default
   - TransparentFX

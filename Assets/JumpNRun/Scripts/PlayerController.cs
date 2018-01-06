@@ -215,6 +215,11 @@ public class PlayerController : MonoBehaviour, Movable
         walkDirection = value;
     }
 
+    public void Bounce(float force)
+    {
+        gravity.y = force;
+    }
+
     public void Jump(float value)
     {
         if(controller.isGrounded)

@@ -35,7 +35,8 @@ public class MouseHover : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Default")))
             {
-                if (hit.collider.tag == "Respawn")
+                Debug.Log(hit.collider.tag);
+                if (hit.collider.tag == "Lift")
                 {
                     var pictureInstance = Instantiate(picture, new Vector3(transform.position.x + 60,
                         transform.position.y - 60,
