@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour, Movable
     public GameManager gameManager;
     public float life = 100;
     public float DecreaseLifeSpeed;
+    public float ShootReadyCooldown = 0;
 
+    private static float SHOOT_READY_COOLDOWN_TIME = 3;
     private CharacterController controller = null;
     private bool jump;
     private float walkDirection;
@@ -41,7 +43,20 @@ public class PlayerController : MonoBehaviour, Movable
     {
         CheckIfDead();
 
-        if(gameManager.view == View.ThirdPerson)
+        if (ShootReadyCooldown > 0)
+        {
+            ShootReadyCooldown -= Time.deltaTime;
+
+        }
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            if (ShootReadyCooldown <= 0)
+            {
+                Shoot();
+            }
+        }
+
+        if (gameManager.view == View.ThirdPerson)
         {
             moveDirection = HandleThirdPersonInput();
         }
@@ -76,6 +91,11 @@ public class PlayerController : MonoBehaviour, Movable
             anim.SetTrigger("isDead");
             gameManager.GameOver();
         }
+    }
+
+    private void Shoot()
+    {
+        ShootReadyCooldown = SHOOT_READY_COOLDOWN_TIME;
     }
 
     internal void CreateObstacle(GameObject obstacle)

@@ -9,6 +9,7 @@ public class ButtonController : MonoBehaviour {
 
     public InventoryManager inventoryManager;
     public Sprite defaultSprite;
+    public GameObject OptionsMenu;
 
     private Button[] buttons;
     private CameraController cameraController;
@@ -68,6 +69,9 @@ public class ButtonController : MonoBehaviour {
                 break;
             case Buttons.SHIFT_RIGHT_BUTTON:
                 inventoryManager.ShiftRight();
+                break;
+            case Buttons.OPTIONS_MENUE:
+                OptionsMenu.SetActive(true);
                 break;
         }
         EventSystem.current.SetSelectedGameObject(null);

@@ -12,5 +12,6 @@ public static class Buttons
     public const String SLOT_4 = "4";
     public const String SHIFT_LEFT_BUTTON = "Shift Left Button";
     public const String SHIFT_RIGHT_BUTTON = "Shift Right Button";
+    public const String OPTIONS_MENUE = "Options"; 
 }
 
