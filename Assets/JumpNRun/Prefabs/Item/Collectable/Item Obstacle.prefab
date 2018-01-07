@@ -304,5 +304,5 @@ MonoBehaviour:
   Name: obstacle
   Amount: 1
   sprite: {fileID: 21300000, guid: 1cadc06d1226f4744b62d50e70098271, type: 3}
-  gameObject: {fileID: 1761642099720222, guid: 7c4f0e44b9233e34d99e8ca049c4d228, type: 2}
+  droppableObject: {fileID: 0}
   Benefit: 3

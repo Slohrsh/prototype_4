@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MouseHover : MonoBehaviour
 {
-    public GameObject picture;
     private RectTransform canvasRectTransform;
     private bool pictureShown = false;
 
@@ -33,14 +32,17 @@ public class MouseHover : MonoBehaviour
                 Destroy(child.gameObject);
             }
 
-            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Default")))
+            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Clickable")))
             {
                 Debug.Log(hit.collider.tag);
-                if (hit.collider.tag == "Lift")
+
+                Clickable clickable = hit.transform.GetComponent<Clickable>();
+
+                if(clickable != null)
                 {
-                    var pictureInstance = Instantiate(picture, new Vector3(transform.position.x + 60,
-                        transform.position.y - 60,
-                        transform.position.z), Quaternion.identity);
+                    var pictureInstance = Instantiate(clickable.Picture, new Vector3(transform.position.x + 30,
+                    transform.position.y - 30,
+                    transform.position.z), Quaternion.identity);
 
                     pictureInstance.transform.parent = gameObject.transform;
                     gameObject.transform.position = Input.mousePosition;

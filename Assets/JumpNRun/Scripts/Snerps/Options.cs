@@ -5,62 +5,21 @@ using UnityEngine.UI;
 
 public class Options : MonoBehaviour {
 
-    public GameObject player;
-
-    //Startvalues
-    float walkSpeed = 6f;
-    float runSpeed = 12f;
-
-    //Scripts
-    public InputController inputController;
-    //UI
-    public Slider walkSpeedSlider;
-    public Slider runSpeedSlider;
+    public PlayerController player;
+    public Slider JumpHeight;
 
 
-    // Use this for initialization
     void Start () {
-        //Script holen
-        inputController = player.GetComponent<InputController>();
-
-        SetStartValues();
-
-        //UIListenerAnmelden
-        walkSpeedSlider.onValueChanged.AddListener(delegate { ChangeWalkSpeedOnSliderValueChange(); });
-        runSpeedSlider.onValueChanged.AddListener(delegate { ChangeRunSpeedOnSliderValueChange(); });
+        JumpHeight.value = player.JumpForce;
+        JumpHeight.onValueChanged.AddListener(delegate { ChangeJumpHeigth(); });
     }
 
-    // Update is called once per frame
     void Update () {
 		
 	}
 
-    private void SetStartValues()
+    public void ChangeJumpHeigth()
     {
-        SetUiStartVluaes();
-        SetLogicStartValues();
-    }
-
-    private void SetUiStartVluaes()
-    {
-        walkSpeedSlider.value = walkSpeed;
-        runSpeedSlider.value = runSpeed;
-
-    }
-
-    private void SetLogicStartValues()
-    {
-        ChangeWalkSpeedOnSliderValueChange();
-        ChangeRunSpeedOnSliderValueChange();
-    }
-
-    public void ChangeWalkSpeedOnSliderValueChange()
-    {
-        inputController.WalkSpeed = walkSpeedSlider.value;
-    }
-
-    public void ChangeRunSpeedOnSliderValueChange()
-    {
-        inputController.RunSpeed = runSpeedSlider.value;
+        player.JumpForce = JumpHeight.value;
     }
 }
