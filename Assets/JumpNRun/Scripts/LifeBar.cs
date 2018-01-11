@@ -16,6 +16,5 @@ public class LifeBar : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         slider.value = player.life;
-        Debug.Log(slider.value);
 	}
 }

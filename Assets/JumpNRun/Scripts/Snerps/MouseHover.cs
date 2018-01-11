@@ -5,17 +5,10 @@ using UnityEngine.UI;
 
 public class MouseHover : MonoBehaviour
 {
-    private RectTransform canvasRectTransform;
-    private bool pictureShown = false;
 
     // Use this for initialization
     void Start()
     {
-        Canvas canvas = GetComponentInParent<Canvas>();
-        if (canvas != null)
-        {
-            canvasRectTransform = canvas.transform as RectTransform;
-        }
     }
 
     // Update is called once per frame

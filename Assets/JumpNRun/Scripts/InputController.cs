@@ -42,15 +42,15 @@ public class InputController : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            /*if (Input.GetKey(KeyCode.LeftShift))
             {
                 move *= RunSpeed;
             }
             else
             {
                 move *= WalkSpeed;
-            }
-
+            }*/
+            move *= WalkSpeed;
             if (Input.GetButtonDown("Jump"))
             {
                 movable.Jump(JumpForce);

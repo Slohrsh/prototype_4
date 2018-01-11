@@ -12,15 +12,18 @@ public class PlayerController : MonoBehaviour, Movable
     public GameManager gameManager;
     public float life = 100;
     public float DecreaseLifeSpeed;
-    public float ShootReadyCooldown = 0;
+    public float endurance = 0;
 
-    private static float SHOOT_READY_COOLDOWN_TIME = 3;
+    private static float ENDURANCE_TIME = 2;
     private CharacterController controller = null;
     private bool jump;
     private float walkDirection;
     private Vector3 moveDirection;
     private Vector3 gravity = Vector3.zero;
     private float rotation = 90f;
+    private float walkSpeed;
+    private int jumpCount = 0;
+    private Vector3 friction;
 
 
     private LifeIndicator lifeIndicator;
@@ -43,18 +46,23 @@ public class PlayerController : MonoBehaviour, Movable
     {
         CheckIfDead();
 
-        if (ShootReadyCooldown > 0)
+        if (endurance > 0)
         {
-            ShootReadyCooldown -= Time.deltaTime;
-
+            endurance -= Time.deltaTime;
+            walkSpeed = 2;
         }
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        else
         {
-            if (ShootReadyCooldown <= 0)
+            walkSpeed = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (endurance <= 0)
             {
-                Shoot();
+                Run();
             }
         }
+        
 
         if (gameManager.view == View.ThirdPerson)
         {
@@ -69,16 +77,21 @@ public class PlayerController : MonoBehaviour, Movable
         {
             gravity += new Vector3(0f, -Gravity, 0f) * Time.deltaTime;
         }
-        else
+        if (jump)
         {
-            if (jump)
-            {
-                gravity = Vector3.zero;
-                gravity.y = JumpForce;
-                jump = false;
-            }
+            gravity = Vector3.zero;
+            gravity.y = JumpForce;
+            jump = false;
         }
+        if (jumpCount < 2 && controller.isGrounded)
+        {
+            jumpCount = 0;
+        }
+
+
         moveDirection += gravity;
+        friction = Vector3.Lerp(friction, moveDirection, 3f * Time.deltaTime);
+        moveDirection.x = friction.x;
         controller.Move(moveDirection);
         UpdateAnimation();
         UpdateLife();
@@ -93,9 +106,9 @@ public class PlayerController : MonoBehaviour, Movable
         }
     }
 
-    private void Shoot()
+    private void Run()
     {
-        ShootReadyCooldown = SHOOT_READY_COOLDOWN_TIME;
+        endurance = ENDURANCE_TIME;
     }
 
     internal void CreateObstacle(GameObject obstacle)
@@ -106,13 +119,13 @@ public class PlayerController : MonoBehaviour, Movable
 
     private Vector3 HandleFirstPersonInput()
     {
-        Vector3 direction = walkDirection * this.transform.forward * Time.deltaTime;
+        Vector3 direction = walkDirection * this.transform.forward * Time.deltaTime * walkSpeed;
         return direction;
     }
 
     private Vector3 HandleThirdPersonInput()
     {
-        Vector3 direction = Math.Abs(walkDirection) * this.transform.forward * Time.deltaTime;
+        Vector3 direction = Math.Abs(walkDirection) * this.transform.forward * Time.deltaTime * walkSpeed;
         if (walkDirection > 0f)
         {
             this.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
@@ -123,6 +136,7 @@ public class PlayerController : MonoBehaviour, Movable
         }
         return direction;
     }
+
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -222,7 +236,8 @@ public class PlayerController : MonoBehaviour, Movable
 
     public void Jump(float value)
     {
-        if(controller.isGrounded)
+        jumpCount++;
+        if(controller.isGrounded || jumpCount < 2)
         {
             life -= 5;
             jump = true;

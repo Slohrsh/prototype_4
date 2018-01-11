@@ -5,15 +5,12 @@ using UnityEngine;
 public class Lift : MonoBehaviour {
 
     public float height;
-
-    private Vector3 initialPosition;
     private bool isActive = false;
     private bool isMovingUp = false;
     private float actualHeight = 0;
 
 	// Use this for initialization
 	void Start () {
-        initialPosition = this.transform.position;
 	}
 	
 	// Update is called once per frame

@@ -18,7 +18,7 @@ public class Cooldown : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		slider.value = playerController.ShootReadyCooldown;
+		slider.value = playerController.endurance;
 		if (slider.value <= 0)
 		{
 			slider.value = 3;
