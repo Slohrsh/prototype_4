@@ -15,6 +15,9 @@ TagManager:
   - Lift
   - Klickable
   - Border
+  - Surface
+  - Water
+  - NormalSurface
   layers:
   - Default
   - TransparentFX

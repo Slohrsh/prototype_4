@@ -8,11 +8,15 @@ public class PlayerController : MonoBehaviour, Movable
 
     public Animator anim;
     public float Gravity = 1.41f;
+    public float WaterGravity = 0.1f;
+    public float WaterJumpForce = 0.1f;
     public float JumpForce = 0.5f;
     public GameManager gameManager;
     public float life = 100;
     public float DecreaseLifeSpeed;
     public float endurance = 0;
+    public float WaterTime = 10;
+    public float actualWaterTime = 10;
 
     private static float ENDURANCE_TIME = 2;
     private CharacterController controller = null;
@@ -24,7 +28,8 @@ public class PlayerController : MonoBehaviour, Movable
     private float walkSpeed;
     private int jumpCount = 0;
     private Vector3 friction;
-
+    private SurfaceDetection surface;
+    
 
     private LifeIndicator lifeIndicator;
 
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour, Movable
 
     void Start()
     {
+        surface = GetComponent<SurfaceDetection>();
         lifeIndicator = GetComponent<LifeIndicator>();
         controller = GetComponent<CharacterController>();
         controller.detectCollisions = true;
@@ -73,24 +79,50 @@ public class PlayerController : MonoBehaviour, Movable
             moveDirection = HandleFirstPersonInput();
         }
 
-        if (!controller.isGrounded)
+        if (surface.GetTag().Equals("Water"))
         {
-            gravity += new Vector3(0f, -Gravity, 0f) * Time.deltaTime;
+            actualWaterTime -= Time.deltaTime;
+            if(actualWaterTime < 0)
+            {
+                life -= 10 * Time.deltaTime;
+            }
+            if(surface.IsFirstEntered)
+            {
+                gravity = Vector3.zero;
+            }
+            if (jump)
+            {
+                gravity = Vector3.zero;
+                gravity.y = WaterJumpForce;
+                jump = false;
+            }
+            gravity += new Vector3(0f, -WaterGravity, 0f) * Time.deltaTime;
         }
-        if (jump)
+        else
         {
-            gravity = Vector3.zero;
-            gravity.y = JumpForce;
-            jump = false;
-        }
-        if (jumpCount < 2 && controller.isGrounded)
-        {
-            jumpCount = 0;
+            if(actualWaterTime < WaterTime)
+            {
+                actualWaterTime += Time.deltaTime * 2;
+            }
+            if (!controller.isGrounded)
+            {
+                gravity += new Vector3(0f, -Gravity, 0f) * Time.deltaTime;
+            }
+            if (jump)
+            {
+                gravity = Vector3.zero;
+                gravity.y = JumpForce;
+                jump = false;
+            }
+            if (jumpCount < 2 && controller.isGrounded)
+            {
+                jumpCount = 0;
+            }
         }
 
 
         moveDirection += gravity;
-        friction = Vector3.Lerp(friction, moveDirection, 3f * Time.deltaTime);
+        friction = Vector3.Lerp(friction, moveDirection, surface.GetFriction() * Time.deltaTime);
         moveDirection.x = friction.x;
         controller.Move(moveDirection);
         UpdateAnimation();
@@ -240,6 +272,10 @@ public class PlayerController : MonoBehaviour, Movable
         if(controller.isGrounded || jumpCount < 2)
         {
             life -= 5;
+            jump = true;
+        }
+        if(surface.GetTag().Equals("Water"))
+        {
             jump = true;
         }
     }
