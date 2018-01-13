@@ -11,16 +11,23 @@ public class ButtonController : MonoBehaviour {
     public Sprite defaultSprite;
     public GameObject OptionsMenu;
 
+    private GameManager gameManager;
     private Button[] buttons;
     private CameraController cameraController;
 
     void Start () {
+        gameManager = GetComponent<GameManager>();
         buttons = GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
         {
             button.onClick.AddListener(() => onButtonClick(button));
             UpdateButtonSprite(button);
+            if(button.name.Equals(Buttons.RESUME))
+            {
+                button.gameObject.SetActive(false);
+            }
         }
+        
         cameraController = GetComponent<CameraController>();
     }
 
@@ -73,6 +80,11 @@ public class ButtonController : MonoBehaviour {
             case Buttons.OPTIONS_MENUE:
                 OptionsMenu.SetActive(true);
                 break;
+            case Buttons.RESUME:
+                gameManager.resumeGame();
+                button.gameObject.SetActive(false);
+                break;
+
         }
         EventSystem.current.SetSelectedGameObject(null);
     }

@@ -7,6 +7,7 @@ public class Item : MonoBehaviour {
     public int Amount = 1;
     public Sprite sprite;
     public GameObject droppableObject;
+    public GameObject TutorialImagePrefab;
 
     public Inventory.BenefitOfItem Benefit;
 
@@ -35,6 +36,7 @@ public class Item : MonoBehaviour {
         {
             Inventory inventory = other.GetComponent<Inventory>();
             inventory.Add(this.gameObject);
+            GameManager.Instance.ShowTutorial(TutorialImagePrefab, Name);
             gameObject.SetActive(false);
         }
     }
