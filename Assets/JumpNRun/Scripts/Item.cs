@@ -36,7 +36,10 @@ public class Item : MonoBehaviour {
         {
             Inventory inventory = other.GetComponent<Inventory>();
             inventory.Add(this.gameObject);
-            GameManager.Instance.ShowTutorial(TutorialImagePrefab, Name);
+            if(TutorialImagePrefab != null)
+            {
+                GameManager.Instance.ShowTutorial(TutorialImagePrefab, Name);
+            }
             gameObject.SetActive(false);
         }
     }

@@ -276,15 +276,21 @@ public class PlayerController : MonoBehaviour, Movable
 
     public void Jump(float value)
     {
+        if (surface.GetTag().Equals("Water"))
+        {
+            jump = true;
+            return;
+        }
         jumpCount++;
         if(controller.isGrounded || jumpCount < 2)
         {
-            life -= 5;
+            life -= 1;
             jump = true;
         }
-        if(surface.GetTag().Equals("Water"))
-        {
-            jump = true;
-        }
+    }
+
+    public void RefilAir()
+    {
+        actualWaterTime = 10;
     }
 }

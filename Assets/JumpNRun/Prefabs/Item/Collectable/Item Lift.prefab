@@ -232,4 +232,6 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 5dde57a12a35cbf45bd6d3246b9f44ea, type: 3}
   droppableObject: {fileID: 1270648073342822, guid: f26e201618fcf2d478136ceee6c6660f,
     type: 2}
+  TutorialImagePrefab: {fileID: 1147471589078988, guid: b4de34e9c66e23145833136198f15467,
+    type: 2}
   Benefit: 3

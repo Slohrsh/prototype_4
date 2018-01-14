@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114839789310963402}
   m_Layer: 8
   m_Name: Destroyable
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
